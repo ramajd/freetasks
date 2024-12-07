@@ -1,11 +1,10 @@
 package io.github.ramajd.freetasks.controllers;
 
 import io.github.ramajd.freetasks.domain.dto.TaskListDto;
+import io.github.ramajd.freetasks.domain.entities.TaskList;
 import io.github.ramajd.freetasks.mappers.TaskListMapper;
 import io.github.ramajd.freetasks.services.TaskListService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +26,13 @@ public class TaskListController {
                 .stream()
                 .map(taskListMapper::toDto)
                 .toList();
+    }
+
+    @PostMapping
+    public TaskListDto createTaskList(@RequestBody TaskListDto dto) {
+        TaskList createdTaskList =  taskListService.createTaskList(
+                taskListMapper.fromDto(dto)
+        );
+        return taskListMapper.toDto(createdTaskList);
     }
 }
